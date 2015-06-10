@@ -14,6 +14,21 @@ class PostsController < ApplicationController
     render :new
   end
 
+  def edit
+    @post = Post.find(params[:id])
+    render :edit
+  end
+
+  def update
+    tags = params[:tags].split(", ")
+    tag_models = tags.map { |tag| Tag.find_or_create_by(name: tag) }
+    @post = Post.find(params[:post_id])
+    @post = @post.update_attributes(title: params[:title], 
+                                  content: params[:content], 
+                                  tags: tag_models)
+    redirect_to posts_path
+  end
+
   def create
     tags = params[:tags].split(", ")
     tag_models = tags.map { |tag| Tag.find_or_create_by(name: tag) }
@@ -30,4 +45,5 @@ class PostsController < ApplicationController
     page_offset = (n - 1) * 10
     Post.order(written_at: :desc).offset(page_offset).limit(10)
   end
+
 end

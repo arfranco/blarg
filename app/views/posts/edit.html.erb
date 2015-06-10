@@ -1,0 +1,32 @@
+<h2>Edit Post</h2>
+
+<% # Title, Tags, Text %>
+<!-- Title, Tags, Text -->
+
+<%= form_tag('/posts', method: "put", class: 'post-form') do %>
+  <div class="post-input">
+    <%= label_tag(:id, "Id: ") %>
+    <%= hidden_field_tag(:post_id, name="#{@post.id}") %>
+    <%= label_tag(:title, "Title: ") %>
+    <%= text_field_tag(:title, name="#{@post.title}", size: 40) %>
+  </div>
+
+  <div class="post-input">
+    <%= label_tag(:tags, "Tags: ") %>
+    <%= text_field_tag(:tags, name="#{@post.tags.map { |tag| tag.name} * ", " }", size: 40) %>
+  </div> 
+
+  <div class="post-input">
+    <%= label_tag(:content, "Content: ") %>
+    <br/>
+    <%= text_area_tag(:content, name="#{@post.content}", rows: 40, cols: 80) %>
+  </div>
+
+  <br/>
+  <div><%= submit_tag 'Save' %></div>
+<% end %>
+
+<br/>
+<div>
+  <%= link_to "Back", :back %>
+</div>
