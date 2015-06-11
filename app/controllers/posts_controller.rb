@@ -11,18 +11,20 @@ class PostsController < ApplicationController
   end
 
   def new
+    @post = Post.new
     render :new
   end
 
   def edit
     @post = Post.find(params[:id])
+    @tags = @post.tags.map(&:name).join(", ")
     render :edit
   end
 
   def update
     tags = params[:tags].split(", ")
     tag_models = tags.map { |tag| Tag.find_or_create_by(name: tag) }
-    @post = Post.find(params[:post_id])
+    @post = Post.find(params[:id])
     @post = @post.update_attributes(title: params[:title], 
                                   content: params[:content], 
                                   tags: tag_models)

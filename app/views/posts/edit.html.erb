@@ -3,23 +3,21 @@
 <% # Title, Tags, Text %>
 <!-- Title, Tags, Text -->
 
-<%= form_tag('/posts', method: "put", class: 'post-form') do %>
+<%= form_tag(post_path(@post), method: "put", class: 'post-form') do %>
   <div class="post-input">
-    <%= label_tag(:id, "Id: ") %>
-    <%= hidden_field_tag(:post_id, name="#{@post.id}") %>
     <%= label_tag(:title, "Title: ") %>
-    <%= text_field_tag(:title, name="#{@post.title}", size: 40) %>
+    <%= text_field_tag(:title, @post.title, size: 40) %>
   </div>
 
   <div class="post-input">
     <%= label_tag(:tags, "Tags: ") %>
-    <%= text_field_tag(:tags, name="#{@post.tags.map { |tag| tag.name} * ", " }", size: 40) %>
+    <%= text_field_tag(:tags, @tags, size: 40) %>
   </div> 
 
   <div class="post-input">
     <%= label_tag(:content, "Content: ") %>
     <br/>
-    <%= text_area_tag(:content, name="#{@post.content}", rows: 40, cols: 80) %>
+    <%= text_area_tag(:content, @post.content, rows: 40, cols: 80) %>
   </div>
 
   <br/>
