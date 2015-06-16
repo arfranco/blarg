@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+before_action :authenticate_user!, only: [:create, :update]
+
   def index
     page = params[:page] || 1
     @posts = self.get_page(page)
@@ -32,13 +35,18 @@ class PostsController < ApplicationController
   end
 
   def create
-    tags = params[:tags].split(", ")
-    tag_models = tags.map { |tag| Tag.find_or_create_by(name: tag) }
-    @post = Post.create(title: params[:title],
-                        content: params[:content],
-                        written_at: DateTime.now,
-                        tags: tag_models)
+    if current_user
+      tags = params[:tags].split(", ")
+      tag_models = tags.map { |tag| Tag.find_or_create_by(name: tag) }
+      @post = Post.create(title: params[:title],
+                          content: params[:content],
+                          written_at: DateTime.now,
+                          tags: tag_models)
+    else
+      flash[:alert] = 'Only logged in users can write new posts'
+    end
     redirect_to posts_path
+
     # redirect_to post_path(@post)
   end
 

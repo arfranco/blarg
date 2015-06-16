@@ -1,7 +1,10 @@
 <%= render partial: "post", object: @post %>
 
-<%= link_to 'Edit', post_edit_path(@post) %> 
-<br/>
-<br/>
-<%= link_to "Post Index", posts_path %> 
+<div class="post-nav">
+  <% if current_user %>
+    <%= link_to 'Edit', post_edit_path(@post) %> 
+    <br/>
+    <br/>
+    <%= link_to "Post Index", posts_path %> 
+  <% end %>
 
